@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      borderColor: {
+        DEFAULT: '#000000',
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

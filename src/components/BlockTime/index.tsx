@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { parse, differenceInHours, differenceInMinutes, format } from "date-fns";
 import BlockItem from "./BlockItem";
 
 type BlockTimeProps = {
@@ -39,14 +38,17 @@ export default function BlockTime (props : BlockTimeProps) {
   }, [])
 
   return (
-    <div className="flex h-screen p-5 border w-fit">
-      <div className="w-12 flex flex-col items-center absolute z-[1]" >
+    <div className="flex h-fit w-fit relative" style={{ height: `${totalHeight}px` }} >
+      <div 
+        className={`w-12 flex border border-gray-700 flex-col rounded-md items-center absolute z-[1]`}
+        style={{ height: `${totalHeight}px` }} 
+      >
        {Array.from({ length: 24 }).map((_, hour) => (
           <div
             key={`hour-${hour}h`}
-            className="flex-1 border-b text-center w-8 h-7 min-h-[27.3] text-sm pr-1"
+            className={`text-center w-8 text-sm pr-1 ${hour !== 23 && 'border-b'}`}
             style={{
-              height: `${(60 / totalHeight) * 100}%`,
+              height: `${100 / 24}%`,
             }}
           >
             {hour}h
@@ -54,7 +56,7 @@ export default function BlockTime (props : BlockTimeProps) {
        ))}
      </div>
 
-      <div className="relative flex-1 bg-white opacity-75 z-0">
+      <div className="bg-white opacity-75 z-0">
         {blockTimes.map((block: any, index: number) => (
           <BlockItem 
             block={block} 

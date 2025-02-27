@@ -5,7 +5,8 @@ interface HourPickerProps {
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void
   name: string
   noLabel?: boolean
-  interval?: number
+  interval?: number,
+  required?: boolean
 }
 
 export default function HourPicker (props : HourPickerProps) {
@@ -14,7 +15,8 @@ export default function HourPicker (props : HourPickerProps) {
     onChange = (e: ChangeEvent<HTMLSelectElement>) => {}, 
     name,
     noLabel = false,
-    interval = 60
+    interval = 60,
+    required = false
   } = props
 
   const generateHourOptions = () => {
@@ -49,6 +51,7 @@ export default function HourPicker (props : HourPickerProps) {
         className="border p-1 rounded-md"
         value={value}
         onChange={(e) => onChange(e)}
+        required={required}
       >
         {generateHourOptions().map((hour: string, index: number) => (
           <option 

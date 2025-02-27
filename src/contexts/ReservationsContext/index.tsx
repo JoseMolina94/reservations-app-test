@@ -1,6 +1,6 @@
 'use client'
 
-import { User } from "@/types/user";
+import { User } from "@/types/User";
 import { createContext, ReactNode, useState } from "react";
 import useSWR from "swr";
 
@@ -13,18 +13,22 @@ type ReservationContextProviderProps = {
 }
 
 export default function ReservationContextProvider ({ children }: ReservationContextProviderProps) {
-  const { data: usersList, isLoading, isValidating, mutate } = useSWR('/api/users', fetcher);
+  const { data: reservationsList, isLoading: reservationsLoading } = useSWR('/api/block-times', fetcher);
+  const { data: usersList, isLoading: usersLoading } = useSWR('/api/users', fetcher);
   const [userSelected, setUserSelected] = useState<User | null>(null)
+  const [reservationSelected, setReservationSelected] = useState<User | null>(null)
 
   return (
     <ReservationContext.Provider 
       value={{
-        usersList,
-        isLoading,
-        isValidating,
-        mutate,
+        reservationsList,
+        reservationsLoading,
         userSelected,
-        setUserSelected
+        setUserSelected,
+        reservationSelected,
+        setReservationSelected,
+        usersList,
+        usersLoading
       }}
     >
       {children}

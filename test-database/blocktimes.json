@@ -1,0 +1,31 @@
+{
+  "blockTimes": [
+    {
+      "id": "1M4MjK",
+      "startTime": "23:00",
+      "endTime": "23:30",
+      "color": "#ff0000",
+      "user": {
+        "id": "a1b2c3",
+        "name": "John Doe",
+        "address": "123 Main St, Springfield, IL",
+        "phone": "555-1234",
+        "email": "john.doe@example.com"
+      }
+    },
+    {
+      "id": "Ym8ZLM",
+      "startTime": "22:00",
+      "endTime": "23:00",
+      "color": "#1e00ff",
+      "user": {
+        "id": "d4e5f6",
+        "name": "Jane Smith",
+        "address": "456 Elm St, Shelbyville, IL",
+        "phone": "555-5678",
+        "email": "jane.smith@example.com"
+      },
+      "date": "2025-02-28"
+    }
+  ]
+}

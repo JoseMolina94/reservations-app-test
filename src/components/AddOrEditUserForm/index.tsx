@@ -2,7 +2,7 @@
 
 import { ChangeEvent, FormEvent, useState, useContext, useEffect } from "react";
 import Input from "../Commons/Input";
-import { User } from "@/types/user";
+import { User } from "@/types/User";
 import { mutate } from 'swr';
 import { ReservationContext } from "@/contexts/ReservationsContext";
 

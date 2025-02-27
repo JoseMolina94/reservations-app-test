@@ -6,6 +6,7 @@ type Input = {
   value?: string | number
   name: string
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  required?: boolean
 }
 
 export default function DateInput (props: Input) {
@@ -14,8 +15,11 @@ export default function DateInput (props: Input) {
     placeholder = "",
     value = "",
     name,
-    onChange = (e: ChangeEvent<HTMLInputElement>) => {}
+    onChange = (e: ChangeEvent<HTMLInputElement>) => {},
+    required = false
   } = props
+
+  console.log(value)
 
   return (
     <div className="block">
@@ -27,7 +31,7 @@ export default function DateInput (props: Input) {
         className="text-xs border w-full border-gray-400 px-1 py-1 rounded-md"
         value={value}
         onChange={onChange}
-        multiple
+        required={required}
       />
     </div>
   )

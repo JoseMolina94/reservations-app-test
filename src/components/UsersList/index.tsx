@@ -4,6 +4,7 @@ import { useState, useContext } from "react"
 import UserCard from "../UserCard";
 import UserListFilter from "./UserListFilter";
 import { ReservationContext } from "@/contexts/ReservationsContext";
+import { BlockTime } from "@/types/BlockTime";
 
 type UserFilter = {
   search: string
@@ -11,18 +12,18 @@ type UserFilter = {
 }
 
 export default function UsersList () {
-  const { usersList, isLoading } = useContext(ReservationContext)
+  const { reservationsList, reservationsLoading } = useContext(ReservationContext)
   const [filter, setFilter] = useState<UserFilter>({search: '', props: []})
 
   const filterData = () => {
-    if (!usersList) return [];
-    if (filter.props.length === 0) return usersList
+    if (!reservationsList) return [];
+    if (filter.props.length === 0) return reservationsList
 
     const searchTerm = filter.search.toLowerCase();
 
-    const result = usersList.filter((user: any) => {
+    const result = reservationsList.filter((reservation: BlockTime) => {
       return filter.props.some((prop) => {
-        const propValue = user[prop]?.toLowerCase();
+        const propValue = (reservation?.user as any)[prop]?.toLowerCase();
         return propValue?.includes(searchTerm);
       });
     });
@@ -43,11 +44,11 @@ export default function UsersList () {
       </div>
       <div>
         {
-          !isLoading &&
+          !reservationsLoading &&
           <div>
             {
-              filterData().map((user: any, index: number) => (
-                <UserCard key={`user-item-${index}`} user={user} />
+              filterData().map((reservation: any, index: number) => (
+                <UserCard key={`user-item-${index}`} reservation={reservation} />
               ))
             }
           </div>

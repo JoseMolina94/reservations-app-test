@@ -1,18 +1,22 @@
 'use client'
-import { ChangeEvent, FormEvent, useContext, useState } from "react"
+
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import DateInput from "../Commons/DateInput";
 import HourPicker from "./HourPicker";
 import { ReservationContext } from "@/contexts/ReservationsContext";
 import DropDown from "../Commons/DropDown";
+import ColorPicker from "../Commons/ColorPicker";
+import { mutate } from 'swr';
 
 export default function AddBlockTimeForm() {
-  const { usersList } = useContext(ReservationContext)
+  const { reservationSelected, usersList } = useContext(ReservationContext)
   const [editMode, setEditMode] = useState<boolean>(false)
   const DEFAULT_VALUES = {
-    userID: '',
+    user: '',
     startTime: '00:00',
     endTime: '00:00',
-    date: ''
+    date: '',
+    color: '#ff0000'
   }
   const [formData, setFormData] = useState<any>(DEFAULT_VALUES);
 
@@ -20,11 +24,31 @@ export default function AddBlockTimeForm() {
     setFormData(DEFAULT_VALUES)
   }
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
 
-    console.log('FFFF', formData)
-  }
+    try {
+      const response = await fetch('/api/block-times', {
+        method: !editMode ? 'POST' : 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al guardar el blocque de tiempo');
+      }
+
+      mutate('/api/block-times')
+
+      clearForm()
+
+      console.log('Blocque de tiempo guardado correctamente');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,12 +67,21 @@ export default function AddBlockTimeForm() {
   };
 
   const handleDropDownChange = (name: string, value: any) => {
-    console.log('YYYY', name, value)
     setFormData({
       ...formData,
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    if (reservationSelected?.id) {
+      setFormData(reservationSelected)
+      setEditMode(true)
+    } else {
+      setFormData(DEFAULT_VALUES)
+      setEditMode(false)
+    }
+  }, [reservationSelected?.id])
 
   return (
     <div className="border rounded-md border-gray-400 w-full h-auto" >
@@ -58,13 +91,15 @@ export default function AddBlockTimeForm() {
 
       <form onSubmit={onSubmit} className="flex flex-col px-2 pb-4 gap-2">
         <DropDown
-          name="userID"
+          name="user"
           onChange={handleDropDownChange}
           label="Usuario ligado"
           options={usersList || []}
-          value={formData.userID}
+          value={formData.user}
           labelProp="name"
           valueProp="id"
+          getCompleteObject
+          required
         />
 
         <DateInput
@@ -72,6 +107,7 @@ export default function AddBlockTimeForm() {
           name="date"
           value={formData.date}
           onChange={handleInputChange}
+          required
         />
 
         <div className="space-y-1">
@@ -83,6 +119,7 @@ export default function AddBlockTimeForm() {
               value={formData.startTime}
               noLabel
               interval={30}
+              required
             />
             <span> - </span>
             <HourPicker
@@ -91,16 +128,32 @@ export default function AddBlockTimeForm() {
               value={formData.endTime}
               noLabel
               interval={30}
+              required
             />
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-1 rounded-md w-full"
-        >
-          Guardar
-        </button>
+        <ColorPicker
+          name='color'
+          onChange={handleInputChange}
+          value={formData.color}
+        />
+
+        <div className="flex gap-2 items-center w-full">
+          <button
+            type="button"
+            className="bg-orange-500 text-white py-1 rounded-md w-full"
+            onClick={() => clearForm()}
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-1 rounded-md w-full"
+          >
+            Guardar
+          </button>
+        </div>
       </form>
     </div>
   )

@@ -1,40 +1,20 @@
 'use client'
-import React, { useEffect, useState } from "react";
+
 import BlockItem from "./BlockItem";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 type BlockTimeProps = {
-  summaryHours?: boolean
   totalHeight?: number
 }
 
 export default function BlockTime (props : BlockTimeProps) {
   const { 
-    summaryHours = false, 
     totalHeight = 1440 
   } = props
-  const [blockTimes, setBlockTimes] = useState<any[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
 
-  const getBlockTimes = async () => {
-    try {
-      const response = await fetch("/api/block-times").then(data => data.json())
-      if (response?.success) {
-        setBlockTimes(response.data)
-      } else {
-        throw new Error("No se pudo acceder a la api...")
-      }
-      setLoading(false)
-
-    } catch (error) {
-      setBlockTimes([])
-      setLoading(false)
-      console.error(error)
-    }
-  }
-
-  useEffect(() => {
-    getBlockTimes()
-  }, [])
+  const { data: blockTimes, isLoading } = useSWR('/api/block-times', fetcher);
 
   return (
     <div className="flex h-fit w-fit relative" style={{ height: `${totalHeight}px` }} >
@@ -56,7 +36,7 @@ export default function BlockTime (props : BlockTimeProps) {
      </div>
 
      {
-        !loading &&
+        !isLoading &&
           <div className="bg-white opacity-75 z-0">
             {blockTimes.map((block: any, index: number) => (
               <BlockItem 

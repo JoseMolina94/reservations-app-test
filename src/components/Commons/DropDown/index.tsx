@@ -3,7 +3,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
 interface DropDownProps {
-  value: string
+  value: any
   onChange: (name: string, value: any) => void
   name: string
   noLabel?: boolean
@@ -12,6 +12,8 @@ interface DropDownProps {
   options: any[]
   valueProp?: string
   labelProp?: string
+  getCompleteObject?: boolean
+  required?: boolean
 }
 
 export default function DropDown (props : DropDownProps) {
@@ -23,7 +25,9 @@ export default function DropDown (props : DropDownProps) {
     label = '',
     options = [],
     valueProp = 'value',
-    labelProp = 'label'
+    labelProp = 'label',
+    getCompleteObject = false,
+    required = false
   } = props
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [onOpen, setOnOpen] = useState<boolean>(false)
@@ -43,10 +47,15 @@ export default function DropDown (props : DropDownProps) {
 
   useEffect(() => {
     setSearchTerm(() => {
-      const found = options.find((option: any) => option[valueProp] === value) || null
-      
+      let found = null
+
+      if (!getCompleteObject) {
+        found = options.find((option: any) => option[valueProp] === value) || null
+      } else {
+        found = options.find((option: any) => option[valueProp] === value[valueProp]) || null
+      }
+
       if (found) {
-        console.log(found)
         return found[labelProp]
       }
 
@@ -71,6 +80,7 @@ export default function DropDown (props : DropDownProps) {
           onChange={(e) => onChangeFunc(e)}
           className="border p-1 rounded-md w-full mb-2 text-xs"
           onFocus={() => setOnOpen(true)}
+          required={required}
         />
 
         {
@@ -81,8 +91,10 @@ export default function DropDown (props : DropDownProps) {
             >
               {filteredOptions().map((option: any, index: number) => (
                 <div 
-                  key={`option-item-${index}`} 
-                  onClick={() => assingValue(option[valueProp])}
+                  key={`option-item-${index}`}
+                  onClick={() => assingValue(
+                    !getCompleteObject ? option[valueProp] : option
+                  )}
                   className='cursor-pointer hover:bg-slate-300 p-2'
                 >
                   {option[labelProp]}

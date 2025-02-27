@@ -14,17 +14,17 @@ type UserFilter = {
 
 export default function UsersList () {
   const { data: usersList, isLoading } = useSWR('/api/users', fetcher);
-  const [filter, setFilter] = useState<UserFilter>({search: '', props: ['name']})
+  const [filter, setFilter] = useState<UserFilter>({search: '', props: []})
 
   const filterData = () => {
     if (!usersList) return [];
+    if (filter.props.length === 0) return usersList
 
     const searchTerm = filter.search.toLowerCase();
 
     const result = usersList.filter((user: any) => {
       return filter.props.some((prop) => {
         const propValue = user[prop]?.toLowerCase();
-        console.log('----', propValue, prop, searchTerm)
         return propValue?.includes(searchTerm);
       });
     });

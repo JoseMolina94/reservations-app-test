@@ -1,6 +1,11 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react"
 import TagSelector from "../Commons/TagSelector"
 
+type FilterTags = {
+  prop: string,
+  label: string
+}
+
 type UserFilter = {
   search: string
   props: string[]
@@ -9,11 +14,6 @@ type UserFilter = {
 type UserListFilterProps = {
   filter: UserFilter,
   setFilter: Dispatch<SetStateAction<UserFilter>>
-}
-
-type FilterTags = {
-  prop: string,
-  label: string
 }
 
 export default function UserListFilter (props : UserListFilterProps) {
@@ -30,7 +30,7 @@ export default function UserListFilter (props : UserListFilterProps) {
 
     setFilter({
       search: value,
-      props: ['name']
+      props: filterTagsSelected.map((tag: FilterTags) => tag.prop)
     })
   }
 

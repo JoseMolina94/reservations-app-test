@@ -17,7 +17,8 @@ export default function TagSelector (props: TagSelector) {
   const { 
     tagsList,
     placeholder = 'Seleccione las tags',
-    tagsSelected
+    tagsSelected,
+    setTagsSelected
   } = props
   const [onOpenList, setOnOpenList] = useState<boolean>(false)
 
@@ -28,7 +29,19 @@ export default function TagSelector (props: TagSelector) {
   }
 
   const getTagListToShow = () => {
-    
+    return tagsList.filter((tag) => {
+      return !tagsSelected.some((selectedTag: TagItem) => selectedTag.prop === tag.prop);
+    });
+  };
+
+  const includeTag = (tag: TagItem) => {
+    setTagsSelected([...tagsSelected, tag])
+    setOnOpenList(false)
+  }
+
+  const excludeTag = (tag: TagItem) => {
+    const newValue = tagsSelected.filter((selectedTag: TagItem) => selectedTag.prop !== tag.prop)
+    setTagsSelected(newValue)
   }
 
   return (
@@ -41,7 +54,10 @@ export default function TagSelector (props: TagSelector) {
           ? (
             tagsSelected.map((tag: any) => (
               <div key={`tag-prop-${tag.prop}-filter-item`} className="relative" >
-                <div className="text-xs absolute -top-1 -right-1.5 cursor-pointer flex justify-center items-center bg-slate-100 w-2 h-2 p-1.5 rounded-full border">
+                <div
+                  onClick={() => excludeTag(tag)} 
+                  className="text-xs absolute -top-1 -right-1.5 cursor-pointer flex justify-center items-center bg-slate-100 w-2 h-2 p-1.5 rounded-full border"
+                >
                   <span>
                     x
                   </span>
@@ -63,10 +79,11 @@ export default function TagSelector (props: TagSelector) {
         onOpenList &&
           <div className="bg-white absolute z-[2] border rounded-md border-gray-400 min-w-[200px]">
             {
-              tagsList.map((tag: TagItem, index: number) => (
+              getTagListToShow().map((tag: TagItem, index: number) => (
                 <div
                   className="cursor-pointer hover:bg-slate-400 px-3 py-2 " 
                   key={`tag-item-${tag.label}-${index}`}
+                  onClick={() => includeTag(tag)}
                 >
                   {tag.label}
                 </div>

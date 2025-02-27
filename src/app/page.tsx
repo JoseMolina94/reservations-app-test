@@ -1,7 +1,8 @@
 import React from "react";
 import BlockTime from "@/components/BlockTime";
 import UsersList from "@/components/UsersList";
-import AddUserForm from "@/components/AddUserForm";
+import AddOrEditUserForm from "@/components/AddOrEditUserForm";
+import ReservationContextProvider from "@/contexts/ReservationsContext";
 
 export default function Home() {
   return (
@@ -16,12 +17,14 @@ export default function Home() {
           <BlockTime totalHeight={640} />
         </div>
 
-        <div className="w-full flex-1 flex gap-4">
-          <UsersList />
-          <div>
-            <AddUserForm />
+        <ReservationContextProvider>
+          <div className="w-full flex-1 flex gap-4">
+            <UsersList />
+            <div>
+              <AddOrEditUserForm />
+            </div>
           </div>
-        </div>
+        </ReservationContextProvider>
       </div>
       
     </div>

@@ -1,3 +1,4 @@
+import { User } from '@/types/user';
 import fs from 'fs';
 import { NextRequest } from 'next/server';
 import path from 'path';
@@ -41,5 +42,34 @@ export async function POST(request: NextRequest) {
     return Response.json({ message: 'Usuario guardado con éxito', data: newUser });
   } catch (error) {
     return Response.json({ error: 'Error al agregar el usuario' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  const dataUrl = process.env.DATA_URL
+  const filePath = path.join(process.cwd(), dataUrl as string, 'users.json');
+
+  try {
+    const jsonData = fs.readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(jsonData);
+
+    const { id, name, address, phone, email } = await request.json();
+
+    const userToUpdate = data.users.find((user: User) => user.id === id);
+
+    if (userToUpdate) {
+      userToUpdate.name = name;
+      userToUpdate.address = address;
+      userToUpdate.phone = phone;
+      userToUpdate.email = email
+
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+
+      return Response.json({ message: 'Bloque de tiempo actualizado', data: userToUpdate });
+    } else {
+      return Response.json({ error: 'Bloque de tiempo no encontrado' }, { status: 404 });
+    }
+  } catch (error) {
+    return Response.json({ error: 'Error al actualizar el bloque de tiempo' }, { status: 500 });
   }
 }

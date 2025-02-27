@@ -1,11 +1,9 @@
 'use client'
 
-import React, { useState } from "react"
-import useSWR from 'swr'
+import { useState, useContext } from "react"
 import UserCard from "../UserCard";
 import UserListFilter from "./UserListFilter";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { ReservationContext } from "@/contexts/ReservationsContext";
 
 type UserFilter = {
   search: string
@@ -13,7 +11,7 @@ type UserFilter = {
 }
 
 export default function UsersList () {
-  const { data: usersList, isLoading } = useSWR('/api/users', fetcher);
+  const { usersList, isLoading } = useContext(ReservationContext)
   const [filter, setFilter] = useState<UserFilter>({search: '', props: []})
 
   const filterData = () => {

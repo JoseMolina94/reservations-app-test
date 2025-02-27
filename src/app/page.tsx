@@ -3,10 +3,11 @@ import BlockTime from "@/components/BlockTime";
 import UsersList from "@/components/UsersList";
 import AddOrEditUserForm from "@/components/AddOrEditUserForm";
 import ReservationContextProvider from "@/contexts/ReservationsContext";
+import AddBlockTimeForm from "@/components/AddBlockTimeForm";
 
 export default function Home() {
   return (
-    <div className=" w-auto h-auto border rounded-2xl m-6 " >
+    <div className="w-auto h-auto border rounded-2xl m-6" >
       <div className=" bg-blue-500 text-white border-b font-medium rounded-t-2xl text-3xl px-4 py-2 mb-4" >
         Reservas
       </div>
@@ -20,8 +21,9 @@ export default function Home() {
         <ReservationContextProvider>
           <div className="w-full flex-1 flex gap-4">
             <UsersList />
-            <div>
+            <div className="space-y-4">
               <AddOrEditUserForm />
+              <AddBlockTimeForm />
             </div>
           </div>
         </ReservationContextProvider>

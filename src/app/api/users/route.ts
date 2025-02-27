@@ -2,6 +2,7 @@ import { User } from '@/types/user';
 import fs from 'fs';
 import { NextRequest } from 'next/server';
 import path from 'path';
+import { generateRandomId } from '@/helpers/randomID';
 
 export async function GET() {
   try {
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
     const { id, name, address, phone, email } = await request.json();
 
     const newUser = {
-      id, 
+      id: generateRandomId(6), 
       name, 
       address, 
       phone, 

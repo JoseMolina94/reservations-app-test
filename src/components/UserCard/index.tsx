@@ -15,6 +15,7 @@ export default function UserCard ({ user } : UserCardProps) {
       <p>{user.phone}</p>
       <p>{user.email}</p>
       <p>{user.address}</p>
+      <div />
     </div>
   )
 } 

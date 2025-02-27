@@ -69,13 +69,6 @@
       "address": "707 Redwood St, Capital City, IL",
       "phone": "555-3210",
       "email": "hannah.walker@example.com"
-    },
-    {
-      "id": "opoy66",
-      "name": "DB 3",
-      "address": "aaaaaaaaaa",
-      "phone": "+57 3135705541",
-      "email": "dbtest@mail.com"
     }
   ]
 }

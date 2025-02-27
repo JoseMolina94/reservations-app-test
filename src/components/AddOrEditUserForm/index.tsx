@@ -6,7 +6,7 @@ import { User } from "@/types/user";
 import { mutate } from 'swr';
 import { ReservationContext } from "@/contexts/ReservationsContext";
 
-export default function AddOrEditUserForm () {
+export default function AddOrEditUserForm() {
   const { userSelected, setUserSelected } = useContext(ReservationContext)
   const DEFAULT_VALUES = {
     name: '',
@@ -47,21 +47,45 @@ export default function AddOrEditUserForm () {
       });
 
       if (!response.ok) {
-        throw new Error('Error al agregar el usuario');
+        throw new Error('Error al guardar el usuario');
       }
 
       mutate('/api/users')
 
       clearForm()
 
-      console.log('Usuario agregado correctamente');
+      console.log('Usuario guardado correctamente');
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
+  const deleteUser = async () => {
+    try {
+      const response = await fetch('/api/users', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar el usuario');
+      }
+
+      mutate('/api/users')
+
+      clearForm()
+
+      console.log('Usuario eliminado correctamente');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   useEffect(() => {
-    if (userSelected?.id){
+    if (userSelected?.id) {
       setFormData(userSelected)
       setEditMode(true)
     } else {
@@ -77,7 +101,7 @@ export default function AddOrEditUserForm () {
       </div>
 
       <form onSubmit={onSubmit} className="flex flex-col px-2 pb-4 gap-2">
-      <Input
+        <Input
           label="Nombre"
           name="name"
           value={formData.name}
@@ -103,28 +127,32 @@ export default function AddOrEditUserForm () {
         />
         <div className="space-y-2">
           <div className="flex gap-2 items-center w-full">
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="bg-orange-500 text-white py-1 rounded-md w-full"
               onClick={() => clearForm()}
             >
               Cancelar
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="bg-blue-500 text-white py-1 rounded-md w-full"
             >
               Guardar
             </button>
           </div>
 
-          <button 
-              type="button" 
+          {
+            editMode &&
+            <button
+              type="button"
               className="bg-red-500 text-white py-1 rounded-md w-full"
-              onClick={() => clearForm()}
+              onClick={() => deleteUser()}
             >
               Eliminar usuario
             </button>
+          }
+
         </div>
       </form>
     </div>

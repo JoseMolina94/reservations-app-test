@@ -73,3 +73,23 @@ export async function PUT(request: NextRequest) {
     return Response.json({ error: 'Error al actualizar el bloque de tiempo' }, { status: 500 });
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  const dataUrl = process.env.DATA_URL
+  const filePath = path.join(process.cwd(), dataUrl as string, 'users.json');
+
+  try {
+    const jsonData = fs.readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(jsonData);
+
+    const { id } = await request.json();
+
+    data.users = data.users.filter((user: User) => user.id !== id);
+
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+
+    return Response.json({ message: 'Usuario eliminado' });
+  } catch (error) {
+    return Response.json({ error: 'Error al eliminar el usuario' }, { status: 500 });
+  }
+}

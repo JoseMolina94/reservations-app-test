@@ -32,10 +32,8 @@ export default function UsersList () {
     return result
   };
 
-  console.log('FFFF', filter, filterData())
-
   return (
-    <div className="border w-full">
+    <div className="border w-full flex-1">
       <div className="flex gap-2 justify-between items-center px-3 py-2" >
         <h1 className="text-2xl font-semibold" >Lista de usuarios</h1>
         <div>

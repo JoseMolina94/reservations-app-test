@@ -1,11 +1,12 @@
 import React from "react";
 import BlockTime from "@/components/BlockTime";
 import UsersList from "@/components/UsersList";
+import AddUserForm from "@/components/AddUserForm";
 
 export default function Home() {
   return (
     <div className=" w-auto h-auto border rounded-2xl m-6 " >
-      <div className=" bg-blue-400 border-b font-medium rounded-t-2xl text-lg px-4 py-2 mb-4" >
+      <div className=" bg-blue-500 text-white border-b font-medium rounded-t-2xl text-3xl px-4 py-2 mb-4" >
         Reservas
       </div>
 
@@ -15,8 +16,11 @@ export default function Home() {
           <BlockTime totalHeight={640} />
         </div>
 
-        <div className="w-full flex-1" >
+        <div className="w-full flex-1 flex gap-4">
           <UsersList />
+          <div>
+            <AddUserForm />
+          </div>
         </div>
       </div>
       

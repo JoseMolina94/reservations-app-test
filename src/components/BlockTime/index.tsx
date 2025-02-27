@@ -18,7 +18,6 @@ export default function BlockTime (props : BlockTimeProps) {
   const getBlockTimes = async () => {
     try {
       const response = await fetch("/api/block-times").then(data => data.json())
-      console.log(response)
       if (response?.success) {
         setBlockTimes(response.data)
       } else {
@@ -56,15 +55,18 @@ export default function BlockTime (props : BlockTimeProps) {
        ))}
      </div>
 
-      <div className="bg-white opacity-75 z-0">
-        {blockTimes.map((block: any, index: number) => (
-          <BlockItem 
-            block={block} 
-            key={`blocktime-item-${index}`}
-            totalHeight={totalHeight}
-          />
-        ))}
-      </div>
+     {
+        !loading &&
+          <div className="bg-white opacity-75 z-0">
+            {blockTimes.map((block: any, index: number) => (
+              <BlockItem 
+                block={block} 
+                key={`blocktime-item-${index}`}
+                totalHeight={totalHeight}
+              />
+            ))}
+          </div>
+     }
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server';
 import path from 'path';
 import { generateRandomId } from '@/helpers/randomID';
 import { BlockTime } from '@/types/BlockTime';
+import { getTomorrowDate } from '@/helpers/getTomorrowDate';
 
 export async function GET() {
   try {
@@ -12,7 +13,10 @@ export async function GET() {
     const jsonData = fs.readFileSync(filePath, 'utf-8');
     const data = JSON.parse(jsonData);
   
-    return Response.json(data.blockTimes || []);
+    return Response.json(
+      data.blockTimes.filter(
+        (reservation: BlockTime) => reservation?.date === getTomorrowDate()) || []
+    )
   } catch (err) {
     return Response.json([]);
   }

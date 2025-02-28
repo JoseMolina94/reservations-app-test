@@ -1,9 +1,8 @@
 'use client'
 
+import { useContext } from "react";
 import BlockItem from "./BlockItem";
-import useSWR from "swr";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { ReservationContext } from "@/contexts/ReservationsContext";
 
 type BlockTimeProps = {
   totalHeight?: number
@@ -13,8 +12,7 @@ export default function BlockTime (props : BlockTimeProps) {
   const { 
     totalHeight = 1440 
   } = props
-
-  const { data: blockTimes, isLoading } = useSWR('/api/block-times', fetcher);
+  const { reservationsList, reservationsLoading } = useContext(ReservationContext)
 
   return (
     <div className="flex h-fit w-fit relative" style={{ height: `${totalHeight}px` }} >
@@ -36,9 +34,9 @@ export default function BlockTime (props : BlockTimeProps) {
      </div>
 
      {
-        !isLoading &&
+        !reservationsLoading &&
           <div className="bg-white opacity-75 z-0">
-            {blockTimes.map((block: any, index: number) => (
+            {reservationsList.map((block: any, index: number) => (
               <BlockItem 
                 block={block} 
                 key={`blocktime-item-${index}`}

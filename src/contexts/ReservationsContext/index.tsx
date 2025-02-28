@@ -15,6 +15,7 @@ type ReservationContextProviderProps = {
 export default function ReservationContextProvider ({ children }: ReservationContextProviderProps) {
   const { data: reservationsList, isLoading: reservationsLoading } = useSWR('/api/block-times', fetcher);
   const { data: usersList, isLoading: usersLoading } = useSWR('/api/users', fetcher);
+  
   const [userSelected, setUserSelected] = useState<User | null>(null)
   const [reservationSelected, setReservationSelected] = useState<User | null>(null)
 

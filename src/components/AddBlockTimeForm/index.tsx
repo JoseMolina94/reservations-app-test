@@ -7,25 +7,48 @@ import { ReservationContext } from "@/contexts/ReservationsContext";
 import DropDown from "../Commons/DropDown";
 import ColorPicker from "../Commons/ColorPicker";
 import { mutate } from 'swr';
+import { isTimeRangeOverlapping } from "@/helpers/blockTimeValidator";
+import { getTomorrowDate } from "@/helpers/getTomorrowDate";
 
 export default function AddBlockTimeForm() {
-  const { reservationSelected, usersList } = useContext(ReservationContext)
+  const { reservationSelected, usersList, reservationsList, setReservationSelected } = useContext(ReservationContext)
   const [editMode, setEditMode] = useState<boolean>(false)
   const DEFAULT_VALUES = {
     user: '',
     startTime: '00:00',
     endTime: '00:00',
-    date: '',
+    date: getTomorrowDate(),
     color: '#ff0000'
   }
   const [formData, setFormData] = useState<any>(DEFAULT_VALUES);
 
   const clearForm = () => {
-    setFormData(DEFAULT_VALUES)
+    if (reservationSelected?.id) {
+      setReservationSelected(null)
+    }
+
+    setFormData(DEFAULT_VALUES);
+    setEditMode(false)
   }
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    const startTime = formData.startTime; 
+    const endTime = formData.endTime; 
+
+    const [startHours, startMinutes] = startTime.split(':').map(Number);
+    const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+    if (endHours < startHours || (endHours === startHours && endMinutes <= startMinutes)) {
+      alert('La hora de finalización debe ser mayor que la hora de inicio.');
+      return
+    }
+
+    if (isTimeRangeOverlapping(reservationsList, formData, editMode)) {
+      alert('El rango de horas seleccionado ya está en uso. Por favor, elige otro.');
+      return
+    }
 
     try {
       const response = await fetch('/api/block-times', {
@@ -37,7 +60,7 @@ export default function AddBlockTimeForm() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al guardar el blocque de tiempo');
+        throw new Error('Error al guardar el bloque de tiempo');
       }
 
       mutate('/api/block-times')

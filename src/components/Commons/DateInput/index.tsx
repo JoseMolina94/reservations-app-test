@@ -19,7 +19,6 @@ export default function DateInput (props: Input) {
     required = false
   } = props
 
-  console.log(value)
 
   return (
     <div className="block">

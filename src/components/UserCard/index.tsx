@@ -17,28 +17,28 @@ export default function UserCard({ reservation }: UserCardProps) {
 
   return (
     <div
-      className={`border-t cursor-pointer border-b grid grid-cols-6 justify-center items-center px-3 py-2 
+      className={`border-t border-gray-400 cursor-pointer border-b grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 justify-center items-center px-3 py-2 
         ${((userSelected?.id || '') === reservation?.user.id) && 'bg-slate-200'}`
       }
       onClick={() => onClick()}
     >
-      <div>
+      <div className="col-span-1">
         <img
           src={avatar}
           alt={reservation?.user.name}
-          className="w-10 h-10 rounded-full"
+          className=" w-16 h-16 lg:w-10 lg:h-10 rounded-full"
         />
       </div>
-      <p>{reservation?.user?.name}</p>
-      <p>{reservation?.user?.phone}</p>
-      <p>{reservation?.user?.email}</p>
-      <p>{reservation?.user?.address}</p>
+      <p className="col-span-2 truncate">{reservation?.user?.name}</p>
+      <p className="col-span-2 md:col-span-3 lg:col-span-1 truncate">{reservation?.user?.phone}</p>
+      <p className="col-span-2 md:col-span-3 truncate">{reservation?.user?.email}</p>
+      <p className="col-span-2 lg:col-span-4 truncate">{reservation?.user?.address}</p>
 
       <div
         style={{
           backgroundColor: reservation?.color
         }}
-        className="w-8 h-8 rounded-md opacity-75"
+        className=" w-full h-4 md:w-8 md:h-8 rounded-md opacity-75 col-span-2 md:col-span-1"
       />
       <div />
     </div>

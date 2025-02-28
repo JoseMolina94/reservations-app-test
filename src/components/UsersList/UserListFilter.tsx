@@ -35,10 +35,10 @@ export default function UserListFilter (props : UserListFilterProps) {
   }
 
   return (
-    <div className="flex gap-8 justify-center w-fit h-max">
-      <div className="flex gap-2 items-center justify-center">
+    <div className="flex flex-col gap-4 lg:gap-8 md:items-center justify-center w-fit h-max">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center justify-center">
         <p className="text-xs" >Parametros de búsqueda</p>
-        <TagSelector 
+        <TagSelector
           tagsList={filterTags} 
           tagsSelected={filterTagsSelected}
           setTagsSelected={setFilterTagsSelected}
@@ -46,12 +46,12 @@ export default function UserListFilter (props : UserListFilterProps) {
       </div>
 
 
-      <div className="block">
+      <div className="block w-full">
         <p className="text-xs">Cadena a buscar</p>
         <input
           type="text"
           placeholder="Escribe para buscar..."
-          className="text-xs border border-gray-400 px-1 py-1 rounded-md"
+          className="text-xs border border-gray-400 px-1 w-full py-1 rounded-md"
           onChange={(e) => onChangeInput(e)}
           value={filter?.search || ''}
         />

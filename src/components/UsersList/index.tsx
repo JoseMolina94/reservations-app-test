@@ -32,8 +32,8 @@ export default function UsersList () {
   };
 
   return (
-    <div className="border w-full flex-1">
-      <div className="flex gap-2 justify-between items-center px-3 py-2" >
+    <div className="border border-gray-400 rounded-md w-full flex-1">
+      <div className="flex flex-col gap-2 justify-between items-center px-3 py-2" >
         <h1 className="text-2xl font-semibold" >Lista de usuarios</h1>
         <div>
           <UserListFilter 
@@ -42,7 +42,7 @@ export default function UsersList () {
           />
         </div>
       </div>
-      <div>
+      <div className="max-h-[644px] overflow-y-auto overflow-x-hidden" >
         {
           !reservationsLoading &&
           <div>

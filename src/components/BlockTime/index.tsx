@@ -17,7 +17,7 @@ export default function BlockTime (props : BlockTimeProps) {
   return (
     <div className="flex h-fit w-fit relative" style={{ height: `${totalHeight}px` }} >
       <div 
-        className={`w-12 flex border border-gray-700 flex-col rounded-md items-center absolute z-[1]`}
+        className={`w-12 flex border border-gray-700 flex-col rounded-md items-center absolute z-0`}
         style={{ height: `${totalHeight}px` }} 
       >
        {Array.from({ length: 24 }).map((_, hour) => (
@@ -35,7 +35,7 @@ export default function BlockTime (props : BlockTimeProps) {
 
      {
         !reservationsLoading &&
-          <div className="bg-white opacity-75 z-0">
+          <div className="bg-white opacity-75 z-[1]">
             {reservationsList.map((block: any, index: number) => (
               <BlockItem 
                 block={block} 

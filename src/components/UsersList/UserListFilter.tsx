@@ -35,9 +35,9 @@ export default function UserListFilter (props : UserListFilterProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4 lg:gap-8 md:items-center justify-center w-fit h-max">
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 md:items-center justify-center w-fit h-max">
       <div className="flex flex-col gap-2 md:flex-row md:items-center justify-center">
-        <p className="text-xs" >Parametros de búsqueda</p>
+        <p className="text-xs lg:w-max" >Parametros de búsqueda</p>
         <TagSelector
           tagsList={filterTags} 
           tagsSelected={filterTagsSelected}

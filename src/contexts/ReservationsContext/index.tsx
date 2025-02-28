@@ -1,5 +1,6 @@
 'use client'
 
+import { BlockTime } from "@/types/BlockTime";
 import { User } from "@/types/User";
 import { createContext, ReactNode, useState } from "react";
 import useSWR from "swr";
@@ -17,7 +18,7 @@ export default function ReservationContextProvider ({ children }: ReservationCon
   const { data: usersList, isLoading: usersLoading } = useSWR('/api/users', fetcher);
   
   const [userSelected, setUserSelected] = useState<User | null>(null)
-  const [reservationSelected, setReservationSelected] = useState<User | null>(null)
+  const [reservationSelected, setReservationSelected] = useState<BlockTime | null>(null)
 
   return (
     <ReservationContext.Provider 

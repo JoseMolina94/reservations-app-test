@@ -1,11 +1,19 @@
 {
   "blockTimes": [
     {
-      "id": "GImXiy",
+      "id": "Pr5yz2",
       "startTime": "06:00",
-      "endTime": "08:00",
-      "color": "#ff0000",
-      "user": "a1b2c3",
+      "endTime": "08:30",
+      "color": "#3eb640",
+      "user": "y5z6a7",
+      "date": "2025-03-02"
+    },
+    {
+      "id": "AHvL2b",
+      "startTime": "01:00",
+      "endTime": "02:00",
+      "color": "#915959",
+      "user": "p6q7r8",
       "date": "2025-03-02"
     }
   ]

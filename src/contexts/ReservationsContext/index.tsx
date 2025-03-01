@@ -14,8 +14,16 @@ type ReservationContextProviderProps = {
 }
 
 export default function ReservationContextProvider ({ children }: ReservationContextProviderProps) {
-  const { data: reservationsList, isLoading: reservationsLoading } = useSWR('/api/block-times', fetcher);
-  const { data: usersList, isLoading: usersLoading } = useSWR('/api/users', fetcher);
+  const { 
+    data: reservationsList, 
+    isLoading: reservationsLoading, 
+    isValidating: reservationsValidating 
+  } = useSWR('/api/block-times', fetcher);
+  const { 
+    data: usersList, 
+    isLoading: usersLoading, 
+    isValidating: usersIsValidating 
+  } = useSWR('/api/users', fetcher);
   
   const [userSelected, setUserSelected] = useState<User | null>(null)
   const [reservationSelected, setReservationSelected] = useState<BlockTime | null>(null)
@@ -25,12 +33,14 @@ export default function ReservationContextProvider ({ children }: ReservationCon
       value={{
         reservationsList,
         reservationsLoading,
+        reservationsValidating,
         userSelected,
         setUserSelected,
         reservationSelected,
         setReservationSelected,
         usersList,
-        usersLoading
+        usersLoading,
+        usersIsValidating
       }}
     >
       {children}

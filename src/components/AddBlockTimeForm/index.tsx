@@ -67,8 +67,8 @@ export default function AddBlockTimeForm() {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const startTime = formData.startTime; 
-    const endTime = formData.endTime; 
+    const startTime = formData.startTime;
+    const endTime = formData.endTime;
 
     const [startHours, startMinutes] = startTime.split(':').map(Number);
     const [endHours, endMinutes] = endTime.split(':').map(Number);
@@ -141,6 +141,61 @@ export default function AddBlockTimeForm() {
     return usersList.find((user: User) => user.id === reservationSelected.user) || ''
   }
 
+  const deleteUserReservation = async (reservationID: string) => {
+    const user = getUserAssigned()
+    const newReservationsState = user.reservations.filter((r: string) => r !== reservationID)
+
+    try {
+      const response = await fetch('/api/users', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...user,
+          reservations: newReservationsState
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar el bloque de tiempo en el usuario');
+      }
+
+      mutate('/api/users')
+
+      clearForm()
+
+      console.log('Bloque de tiempo eliminado correctamente en el usuario');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  const deleteBlockTime = async () => {
+    try {
+      const response = await fetch('/api/block-times', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar el bloque de tiempo');
+      }
+
+      mutate('/api/block-times')
+      deleteUserReservation(formData.id)
+
+      clearForm()
+
+      console.log('Bloque de tiempo eliminado correctamente');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   useEffect(() => {
     if (reservationSelected?.id) {
       setFormData({
@@ -210,20 +265,33 @@ export default function AddBlockTimeForm() {
           value={formData.color}
         />
 
-        <div className="flex gap-2 items-center w-full">
-          <button
-            type="button"
-            className="bg-orange-500 text-white py-1 rounded-md w-full"
-            onClick={() => clearForm()}
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-1 rounded-md w-full"
-          >
-            Guardar
-          </button>
+        <div className="space-y-2">
+          <div className="flex gap-2 items-center w-full">
+            <button
+              type="button"
+              className="bg-orange-500 text-white py-1 rounded-md w-full"
+              onClick={() => clearForm()}
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-1 rounded-md w-full"
+            >
+              Guardar
+            </button>
+          </div>
+
+          {
+            editMode &&
+            <button
+              type="button"
+              className="bg-red-500 text-white py-1 rounded-md w-full"
+              onClick={() => deleteBlockTime()}
+            >
+              Eliminar Reservación
+            </button>
+          }
         </div>
       </form>
     </div>

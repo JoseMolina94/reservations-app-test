@@ -49,7 +49,9 @@
       "address": "303 Birch St, Brockway, IL",
       "phone": "555-3456",
       "email": "diana.evans@example.com",
-      "reservations": []
+      "reservations": [
+        "AHvL2b"
+      ]
     },
     {
       "id": "s9t0u1",
@@ -73,7 +75,10 @@
       "address": "606 Fir St, Shelbyville, IL",
       "phone": "555-6789",
       "email": "george.lewis@example.com",
-      "reservations": []
+      "reservations": [
+        "Pr5yz2",
+        "Pr5yz2"
+      ]
     },
     {
       "id": "b8c9d0",
@@ -81,14 +86,6 @@
       "address": "707 Redwood St, Capital City, IL",
       "phone": "555-3210",
       "email": "hannah.walker@example.com",
-      "reservations": []
-    },
-    {
-      "id": "V5wtWU",
-      "name": "rania",
-      "address": "aaaaaaaaaa",
-      "phone": "+57 3135705541",
-      "email": "alfinanasution732@gmail.com",
       "reservations": []
     }
   ]

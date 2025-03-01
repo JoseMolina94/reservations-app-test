@@ -12,7 +12,12 @@ type UserFilter = {
 }
 
 export default function UsersList () {
-  const { usersList, usersLoading, reservationsLoading } = useContext(ReservationContext)
+  const { 
+    usersList, 
+    usersLoading, 
+    reservationsLoading, 
+    usersIsValidating 
+  } = useContext(ReservationContext)
   const [filter, setFilter] = useState<UserFilter>({search: '', props: []})
 
   const filterData = () => {
@@ -36,7 +41,7 @@ export default function UsersList () {
       <div className="flex flex-col lg:flex-row gap-2 justify-between items-center px-3 py-2" >
         <h1 className="text-2xl font-semibold" >Lista de usuarios</h1>
         <div>
-          <UserListFilter 
+          <UserListFilter
             filter={filter}
             setFilter={setFilter}
           />
@@ -44,7 +49,7 @@ export default function UsersList () {
       </div>
       <div className="max-h-[644px] overflow-y-auto overflow-x-hidden" >
         {
-          (!usersLoading && !reservationsLoading) &&
+          (!usersLoading && !reservationsLoading && !usersIsValidating) &&
           <div>
             {
               filterData().map((user: User, index: number) => (

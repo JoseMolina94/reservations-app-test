@@ -13,6 +13,7 @@ export default function AddOrEditUserForm() {
     email: '',
     phone: '',
     address: '',
+    reservations: []
   }
   const [formData, setFormData] = useState<User>(DEFAULT_VALUES);
   const [editMode, setEditMode] = useState<boolean>(false)
@@ -60,6 +61,30 @@ export default function AddOrEditUserForm() {
     }
   };
 
+  const deleteUserReservation = async (reservationID: string) => {
+    try {
+      const response = await fetch('/api/block-times', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({id: reservationID}),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar el bloque ligado al usuario');
+      }
+
+      mutate('/api/block-times')
+
+      clearForm()
+
+      console.log('Bloques del usuario eliminado correctamente');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   const deleteUser = async () => {
     try {
       const response = await fetch('/api/users', {
@@ -75,6 +100,10 @@ export default function AddOrEditUserForm() {
       }
 
       mutate('/api/users')
+
+      formData.reservations.forEach((reservation: string) => {
+        deleteUserReservation(reservation as string)
+      })
 
       clearForm()
 
@@ -152,7 +181,6 @@ export default function AddOrEditUserForm() {
               Eliminar usuario
             </button>
           }
-
         </div>
       </form>
     </div>

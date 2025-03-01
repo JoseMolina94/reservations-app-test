@@ -13,15 +13,15 @@ export default function UserCard({ user }: UserCardProps) {
   const [reservationUser, setReservationUser] = useState<BlockTime[] | null>(null)
   const { userSelected, setUserSelected, setReservationSelected, reservationsList } = useContext(ReservationContext)
 
-  const onClick = () => {
-    setUserSelected(user)
-    //setReservationSelected(reservation)
-  }
-
   const getReservationData = () => {
     return reservationsList.filter(
       (reservation: BlockTime) => (user.reservations.includes(reservation.id as string) && reservation?.date === getTomorrowDate())
     )
+  }
+
+  const onClick = () => {
+    setUserSelected(user)
+    setReservationSelected(getReservationData()[0])
   }
 
   useEffect(() => {

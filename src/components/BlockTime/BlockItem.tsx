@@ -2,6 +2,7 @@
 
 import { useContext } from "react";
 import { ReservationContext } from "@/contexts/ReservationsContext";
+import { User } from "@/types/User";
 
 type BlockItemProps = {
   block: any
@@ -9,7 +10,7 @@ type BlockItemProps = {
 }
 
 export default function BlockItem ({ block, totalHeight = 1440 } : BlockItemProps) {
-  const { setReservationSelected, setUserSelected } = useContext(ReservationContext)
+  const { setReservationSelected, setUserSelected, usersList } = useContext(ReservationContext)
 
   const timeToMinutes = (time: string) => {
     const [hours, minutes] = time.split(':').map(Number);
@@ -21,9 +22,13 @@ export default function BlockItem ({ block, totalHeight = 1440 } : BlockItemProp
   const height = ((endMinutes - startMinutes) / 1440) * totalHeight; 
   const top = (startMinutes / 1440) * totalHeight;
 
+  const getUserOwner = () => (
+    usersList.find((user: User) => user.id === block.user)
+  )
+
   const onClick = () => {
     setReservationSelected(block)
-    setUserSelected(block.user)
+    setUserSelected(getUserOwner())
   }
 
   return (
@@ -38,4 +43,4 @@ export default function BlockItem ({ block, totalHeight = 1440 } : BlockItemProp
       }}
     />
   );
-} 
+}

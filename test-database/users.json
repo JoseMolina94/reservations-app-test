@@ -5,77 +5,91 @@
       "name": "John Doe",
       "address": "123 Main St, Springfield, IL",
       "phone": "555-1234",
-      "email": "john.doe@example.com"
+      "email": "john.doe@example.com",
+      "reservations": [
+        "GImXiy",
+        "GImXiy"
+      ]
     },
     {
       "id": "d4e5f6",
       "name": "Jane Smith",
       "address": "456 Elm St, Shelbyville, IL",
       "phone": "555-567877",
-      "email": "jane.smith@example.com"
+      "email": "jane.smith@example.com",
+      "reservations": []
     },
     {
       "id": "g7h8i9",
       "name": "Alice Johnson",
       "address": "789 Oak St, Capital City, IL",
       "phone": "555-8765",
-      "email": "alice.johnson@example.com"
+      "email": "alice.johnson@example.com",
+      "reservations": []
     },
     {
       "id": "j0k1l2",
       "name": "Bob Brown",
       "address": "101 Pine St, Ogdenville, IL",
       "phone": "555-4321",
-      "email": "bob.brown@example.com"
+      "email": "bob.brown@example.com",
+      "reservations": []
     },
     {
       "id": "m3n4o5",
       "name": "Charlie Davis",
       "address": "202 Maple St, North Haverbrook, IL",
       "phone": "555-6543",
-      "email": "charlie.davis@example.com"
+      "email": "charlie.davis@example.com",
+      "reservations": []
     },
     {
       "id": "p6q7r8",
       "name": "Diana Evans",
       "address": "303 Birch St, Brockway, IL",
       "phone": "555-3456",
-      "email": "diana.evans@example.com"
+      "email": "diana.evans@example.com",
+      "reservations": []
     },
     {
       "id": "s9t0u1",
       "name": "Ethan Harris",
       "address": "404 Cedar St, Cypress Creek, IL",
       "phone": "555-7890",
-      "email": "ethan.harris@example.com"
+      "email": "ethan.harris@example.com",
+      "reservations": []
     },
     {
       "id": "v2w3x4",
       "name": "Fiona Clark",
       "address": "505 Spruce St, Springfield, IL",
       "phone": "555-0987",
-      "email": "fiona.clark@example.com"
+      "email": "fiona.clark@example.com",
+      "reservations": []
     },
     {
       "id": "y5z6a7",
       "name": "George Lewis",
       "address": "606 Fir St, Shelbyville, IL",
       "phone": "555-6789",
-      "email": "george.lewis@example.com"
+      "email": "george.lewis@example.com",
+      "reservations": []
     },
     {
       "id": "b8c9d0",
       "name": "Hannah Walker",
       "address": "707 Redwood St, Capital City, IL",
       "phone": "555-3210",
-      "email": "hannah.walker@example.com"
+      "email": "hannah.walker@example.com",
+      "reservations": []
     },
     {
       "id": "V5wtWU",
       "name": "rania",
       "address": "aaaaaaaaaa",
       "phone": "+57 3135705541",
-      "email": "alfinanasution732@gmail.com"
+      "email": "alfinanasution732@gmail.com",
+      "reservations": []
     }
   ]
 }

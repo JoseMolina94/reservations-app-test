@@ -1,5 +1,3 @@
-import { User } from "./User"
-
 
 export interface BlockTime {
   id?: string
@@ -7,5 +5,5 @@ export interface BlockTime {
   endTime: string
   color: string
   date: string
-  user: User
+  user: string
 }

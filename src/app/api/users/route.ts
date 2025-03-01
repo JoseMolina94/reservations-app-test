@@ -26,14 +26,15 @@ export async function POST(request: NextRequest) {
     const jsonData = fs.readFileSync(filePath, 'utf-8');
     const data = JSON.parse(jsonData);
 
-    const { id, name, address, phone, email } = await request.json();
+    const { name, address, phone, email } = await request.json();
 
     const newUser = {
       id: generateRandomId(6), 
       name, 
       address, 
       phone, 
-      email
+      email,
+      reservations: []
     };
 
     data.users.push(newUser);
@@ -54,15 +55,16 @@ export async function PUT(request: NextRequest) {
     const jsonData = fs.readFileSync(filePath, 'utf-8');
     const data = JSON.parse(jsonData);
 
-    const { id, name, address, phone, email } = await request.json();
+    const { id, name, address, phone, email, reservations } = await request.json();
 
     const userToUpdate = data.users.find((user: User) => user.id === id);
 
     if (userToUpdate) {
-      userToUpdate.name = name;
-      userToUpdate.address = address;
-      userToUpdate.phone = phone;
+      userToUpdate.name = name
+      userToUpdate.address = address
+      userToUpdate.phone = phone
       userToUpdate.email = email
+      userToUpdate.reservations = reservations
 
       fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 

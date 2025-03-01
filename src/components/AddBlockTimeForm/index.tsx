@@ -9,6 +9,7 @@ import ColorPicker from "../Commons/ColorPicker";
 import { mutate } from 'swr';
 import { isTimeRangeOverlapping } from "@/helpers/blockTimeValidator";
 import { getTomorrowDate } from "@/helpers/getTomorrowDate";
+import { User } from "@/types/User";
 
 export default function AddBlockTimeForm() {
   const { reservationSelected, usersList, reservationsList, setReservationSelected } = useContext(ReservationContext)
@@ -31,6 +32,38 @@ export default function AddBlockTimeForm() {
     setEditMode(false)
   }
 
+  const updateUserReservations = async (reservationID: string) => {
+    try {
+      const data = {
+        ...formData?.user,
+        reservations: [
+          ...formData.user.reservations,
+          reservationID
+        ]
+      }
+
+      const response = await fetch('/api/users', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al guardar el bloque de tiempo en el usuario');
+      }
+
+      mutate('/api/users')
+
+      clearForm()
+
+      console.log('Bloque de tiempo guardado correctamente dentro del usuario');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -51,23 +84,31 @@ export default function AddBlockTimeForm() {
     }
 
     try {
+      let reservationID
       const response = await fetch('/api/block-times', {
         method: !editMode ? 'POST' : 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          user: formData.user.id
+        }),
       });
 
       if (!response.ok) {
         throw new Error('Error al guardar el bloque de tiempo');
       }
+      const dataRes = await response.json()
+
+      reservationID = dataRes.data.id
 
       mutate('/api/block-times')
+      updateUserReservations(reservationID)
 
       clearForm()
 
-      console.log('Blocque de tiempo guardado correctamente');
+      console.log('Bloque de tiempo guardado correctamente');
     } catch (error) {
       console.error('Error:', error);
     }
@@ -96,9 +137,16 @@ export default function AddBlockTimeForm() {
     });
   };
 
+  const getUserAssigned = () => {
+    return usersList.find((user: User) => user.id === reservationSelected.user) || ''
+  }
+
   useEffect(() => {
     if (reservationSelected?.id) {
-      setFormData(reservationSelected)
+      setFormData({
+        ...reservationSelected,
+        user: getUserAssigned()
+      })
       setEditMode(true)
     } else {
       setFormData(DEFAULT_VALUES)

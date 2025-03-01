@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import BlockItem from "./BlockItem";
 import { ReservationContext } from "@/contexts/ReservationsContext";
+import { BlockTime as BlockTimeType } from "@/types/BlockTime";
 
 type BlockTimeProps = {
   totalHeight?: number
@@ -36,7 +37,7 @@ export default function BlockTime (props : BlockTimeProps) {
      {
         !reservationsLoading &&
           <div className="bg-white opacity-75 z-[1]">
-            {reservationsList.map((block: any, index: number) => (
+            {reservationsList.map((block: BlockTimeType, index: number) => (
               <BlockItem 
                 block={block} 
                 key={`blocktime-item-${index}`}

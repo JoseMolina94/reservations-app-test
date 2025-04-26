@@ -220,7 +220,7 @@ export default function AddBlockTimeForm() {
           name="user"
           onChange={handleDropDownChange}
           label="Usuario ligado"
-          options={usersList || []}
+          options={usersList?.data || []}
           value={formData.user}
           labelProp="name"
           valueProp="id"

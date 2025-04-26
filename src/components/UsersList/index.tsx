@@ -5,6 +5,7 @@ import UserCard from "../UserCard";
 import UserListFilter from "./UserListFilter";
 import { ReservationContext } from "@/contexts/ReservationsContext";
 import { User } from "@/types/User";
+import UserListPagination from "./UserListPagination";
 
 type UserFilter = {
   search: string
@@ -21,8 +22,8 @@ export default function UsersList () {
   const [filter, setFilter] = useState<UserFilter>({search: '', props: []})
 
   const filterData = () => {
-    if (!usersList) return [];
-    if (filter.props.length === 0) return usersList
+    if (!usersList?.data) return [];
+    if (filter.props.length === 0) return usersList.data
 
     const searchTerm = filter.search.toLowerCase();
 
@@ -58,6 +59,9 @@ export default function UsersList () {
             }
           </div>
         }
+      </div>
+      <div>
+        <UserListPagination />
       </div>
     </div>
   )

@@ -4,17 +4,42 @@ import { NextRequest } from 'next/server';
 import path from 'path';
 import { generateRandomId } from '@/helpers/randomID';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const dataUrl = process.env.DATA_URL
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const perPage = 10;
+
+    const dataUrl = process.env.DATA_URL;
     const filePath = path.join(process.cwd(), dataUrl as string, 'users.json');
   
     const jsonData = fs.readFileSync(filePath, 'utf-8');
     const data = JSON.parse(jsonData);
-  
-    return Response.json(data.users || []);
+    const allUsers = data.users || [];
+    
+    const totalUsers = allUsers.length;
+    const totalPages = Math.ceil(totalUsers / perPage);
+    const startIndex = (page - 1) * perPage;
+    const endIndex = startIndex + perPage;
+    
+    const paginatedUsers = allUsers.slice(startIndex, endIndex);
+    
+    return Response.json({
+      page,
+      perPage,
+      totalPages,
+      totalUsers,
+      data: paginatedUsers
+    });
+    
   } catch (err) {
-    return Response.json([]);
+    return Response.json({
+      page: 1,
+      perPage: 10,
+      totalPages: 0,
+      totalUsers: 0,
+      data: []
+    });
   }
 }
 

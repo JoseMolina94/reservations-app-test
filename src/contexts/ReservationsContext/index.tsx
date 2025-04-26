@@ -14,6 +14,7 @@ type ReservationContextProviderProps = {
 }
 
 export default function ReservationContextProvider ({ children }: ReservationContextProviderProps) {
+  const [currentPage, setCurrentPage] = useState(1);
   const { 
     data: reservationsList, 
     isLoading: reservationsLoading, 
@@ -23,10 +24,16 @@ export default function ReservationContextProvider ({ children }: ReservationCon
     data: usersList, 
     isLoading: usersLoading, 
     isValidating: usersIsValidating 
-  } = useSWR('/api/users', fetcher);
+  } = useSWR(`/api/users?page=${currentPage}`, fetcher);
   
   const [userSelected, setUserSelected] = useState<User | null>(null)
   const [reservationSelected, setReservationSelected] = useState<BlockTime | null>(null)
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= usersList?.totalPages || 0) {
+      setCurrentPage(newPage);
+    }
+  };
 
   return (
     <ReservationContext.Provider 
@@ -40,7 +47,10 @@ export default function ReservationContextProvider ({ children }: ReservationCon
         setReservationSelected,
         usersList,
         usersLoading,
-        usersIsValidating
+        usersIsValidating,
+        handlePageChange,
+        currentPage,
+        totalPages: usersList?.totalPages || 0
       }}
     >
       {children}

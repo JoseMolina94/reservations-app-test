@@ -8,7 +8,8 @@
       "email": "john.doe@example.com",
       "reservations": [
         "GImXiy",
-        "GImXiy"
+        "GImXiy",
+        "LIf2KT"
       ]
     },
     {
@@ -38,7 +39,7 @@
     {
       "id": "m3n4o5",
       "name": "Charlie Davis",
-      "address": "202 Maple St, North Haverbrook, IL",
+      "address": "202 Maple St",
       "phone": "555-6543",
       "email": "charlie.davis@example.com",
       "reservations": []
